@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading | 古村綾子ポートフォリオ</title>
+    <link rel="preconnect" href="https://use.typekit.net" />
+    <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+    <script src="./js/typekit.js" defer></script>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+
+  <body class="loading_page">
+    <main class="loading_stage" aria-live="polite">
+      <div class="loading_door_frame" aria-hidden="true">
+        <img decoding="async"
+          class="loading_door_open"
+          src="./images/loading/door-open.png"
+          alt=""
+        />
+        <img decoding="async"
+          class="loading_door loading_door-left"
+          src="./images/loading/door-left.png"
+          alt=""
+        />
+        <img decoding="async"
+          class="loading_door loading_door-right"
+          src="./images/loading/door-right.png"
+          alt=""
+        />
+      </div>
+
+      <div class="loading_content">
+        <p class="loading_message">
+          まもなく開幕いたします。<br />
+          しばらくおまちください。
+        </p>
+
+        <div class="loading_clock" aria-label="読み込み中">
+          <img decoding="async"
+            class="loading_clock_number"
+            src="./images/loading/clock-number.png"
+            alt=""
+          />
+          <img decoding="async"
+            class="loading_clock_hand loading_clock_hand-short"
+            src="./images/loading/colock-shorthand.png"
+            alt=""
+          />
+          <img decoding="async"
+            class="loading_clock_hand loading_clock_hand-long"
+            src="./images/loading/colock-longhand.png"
+            alt=""
+          />
+        </div>
+      </div>
+    </main>
+
+    <script src="./js/loading.js" defer></script>
+  </body>
+</html>
