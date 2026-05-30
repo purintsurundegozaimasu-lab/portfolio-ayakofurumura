@@ -1,4 +1,29 @@
 document.addEventListener("DOMContentLoaded", function () {
+  var syncPerformanceOverlayLock = function () {
+    var hashTarget = window.location.hash
+      ? document.getElementById(window.location.hash.slice(1))
+      : null;
+    var hasOpenOverlay =
+      Boolean(document.querySelector(".performance_work_overlay.is-active")) ||
+      Boolean(hashTarget && hashTarget.classList.contains("performance_work_overlay"));
+
+    document.documentElement.classList.toggle(
+      "is-performance-overlay-open",
+      hasOpenOverlay,
+    );
+    document.body.classList.toggle("is-performance-overlay-open", hasOpenOverlay);
+  };
+
+  var openPerformanceOverlay = function (overlay) {
+    overlay.classList.add("is-active");
+    syncPerformanceOverlayLock();
+  };
+
+  var closePerformanceOverlay = function (overlay) {
+    overlay.classList.remove("is-active");
+    syncPerformanceOverlayLock();
+  };
+
   var closeMenu = function (button) {
     var header = button.closest(".header");
     var menu = document.getElementById(button.getAttribute("aria-controls"));
@@ -65,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       event.preventDefault();
-      target.classList.add("is-active");
+      openPerformanceOverlay(target);
     });
   });
 
@@ -135,12 +160,14 @@ document.addEventListener("DOMContentLoaded", function () {
         var overlay = button.closest(".performance_work_overlay");
 
         if (overlay) {
-          overlay.classList.remove("is-active");
+          closePerformanceOverlay(overlay);
         }
 
         if (window.location.hash) {
           history.replaceState(null, "", window.location.pathname + window.location.search);
         }
+
+        syncPerformanceOverlayLock();
       });
     });
 
@@ -152,11 +179,16 @@ document.addEventListener("DOMContentLoaded", function () {
     document
       .querySelectorAll(".performance_work_overlay.is-active")
       .forEach(function (overlay) {
-        overlay.classList.remove("is-active");
+        closePerformanceOverlay(overlay);
       });
 
     if (window.location.hash) {
       history.replaceState(null, "", window.location.pathname + window.location.search);
     }
+
+    syncPerformanceOverlayLock();
   });
+
+  window.addEventListener("hashchange", syncPerformanceOverlayLock);
+  syncPerformanceOverlayLock();
 });

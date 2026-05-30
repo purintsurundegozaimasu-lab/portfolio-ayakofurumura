@@ -80,7 +80,9 @@
             onsubmit="submitted = true"
           >
             <div class="contact_form_row">
-              <label for="name">お名前</label>
+              <label for="name"
+                >お名前<span class="contact_required">必須</span></label
+              >
               <input
                 id="name"
                 name="entry.1860722277"
@@ -90,7 +92,9 @@
               />
             </div>
             <div class="contact_form_row">
-              <label for="email">メールアドレス</label>
+              <label for="email"
+                >メールアドレス<span class="contact_required">必須</span></label
+              >
               <input
                 id="email"
                 name="entry.390871118"
@@ -100,7 +104,9 @@
               />
             </div>
             <div class="contact_form_row contact_form_row-message">
-              <label for="message">ご依頼・ご相談内容</label>
+              <label for="message"
+                >ご依頼・ご相談内容<span class="contact_required">必須</span></label
+              >
               <textarea
                 id="message"
                 name="entry.1026595757"
@@ -108,7 +114,7 @@
               ></textarea>
             </div>
             <button class="contact_submit" type="submit">
-              <img
+              <img loading="lazy"
                 decoding="async"
                 src="./images/contact/send-btn.png"
                 alt="送信"
@@ -120,25 +126,25 @@
     </main>
 
     <footer class="contact_footer">
-      <img
+      <img loading="lazy"
         decoding="async"
         class="contact_footer_floor"
         src="./images/common/wood-floor.webp"
         alt=""
       />
-      <img
+      <img loading="lazy"
         decoding="async"
         class="contact_footer_illust"
         src="./images/contact/contact-myself.png"
         alt="お問い合わせを受け付ける制作者のイラスト"
       />
-      <img
+      <img loading="lazy"
         decoding="async"
         class="contact_footer_comment"
         src="./images/contact/comment.png"
         alt="お問い合わせはお気軽にどうぞ！"
       />
-      <p class="copyright">© Ayako Furumura. All rights reserved.</p>
+      <p class="copyright">&copy; Ayako Furumura. All rights reserved.</p>
     </footer>
     <script src="./js/common.js" defer></script>
   </body>

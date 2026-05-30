@@ -42,19 +42,12 @@ document.addEventListener("DOMContentLoaded", function () {
     confettiArea.classList.add("is-animated");
   }
 
-  const dogPeek = document.querySelector(".dog_peek");
+  const dogPeeks = Array.from(document.querySelectorAll(".dog_peek"));
   const clamp = (value, min = 0, max = 1) =>
     Math.min(Math.max(value, min), max);
   let ticking = false;
-  let scrollEndTimer;
   const scrollCallbacks = [];
   const requestScrollUpdate = () => {
-    document.documentElement.classList.add("is-scrolling");
-    window.clearTimeout(scrollEndTimer);
-    scrollEndTimer = window.setTimeout(() => {
-      document.documentElement.classList.remove("is-scrolling");
-    }, 140);
-
     if (ticking) {
       return;
     }
@@ -70,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
     callback();
   };
 
-  if (dogPeek) {
+  dogPeeks.forEach((dogPeek) => {
     const getDogRatio = (name, fallback) => {
       const rawValue = getComputedStyle(dogPeek).getPropertyValue(name).trim();
       const value = parseFloat(rawValue);
@@ -111,12 +104,24 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     addScrollCallback(setDogPeekProgress);
-  }
+  });
 
   const introduction = document.querySelector(".introduction");
 
   if (introduction) {
+    const introImageToggle = introduction.querySelector("[data-intro-image-toggle]");
+    const introImage = introImageToggle?.querySelector("img");
     const introTitle = introduction.querySelector(".section_title");
+
+    if (introImageToggle && introImage) {
+      introImageToggle.addEventListener("click", () => {
+        const defaultSrc = introImage.dataset.defaultSrc;
+        const activeSrc = introImage.dataset.activeSrc;
+        const isActive = introImageToggle.classList.toggle("is-active");
+
+        introImage.src = isActive ? activeSrc : defaultSrc;
+      });
+    }
 
     const setIntroTitleLightProgress = () => {
       const rect = (introTitle || introduction).getBoundingClientRect();
@@ -164,11 +169,21 @@ document.addEventListener("DOMContentLoaded", function () {
   const performances = document.querySelector(".performances");
 
   if (walkingDog && performances) {
+    const getWalkingDogNumber = (name, fallback) => {
+      const rawValue = getComputedStyle(walkingDog).getPropertyValue(name).trim();
+      const value = Number.parseFloat(rawValue);
+      return Number.isFinite(value) ? value : fallback;
+    };
+
     const workBooks = Array.from(performances.querySelectorAll(".work_book"));
     const randomWorkBooks = workBooks
       .map((book) => ({ book, order: Math.random() }))
       .sort((a, b) => a.order - b.order)
       .map(({ book }) => book);
+
+    randomWorkBooks.forEach((book, index) => {
+      book.style.setProperty("--works-item-delay", `${index * 70}ms`);
+    });
 
     const setWalkingDogProgress = () => {
       const rect = performances.getBoundingClientRect();
@@ -179,8 +194,12 @@ document.addEventListener("DOMContentLoaded", function () {
           (viewportHeight * 0.72 + rect.height * 0.34),
       );
       const step = Math.floor(progress * 12) % 2;
-      const dogLeftRatio = (36 + progress * 24) / 100;
-      const dogTopRatio = (10.5 + progress * 4) / 100;
+      const dogLeftStart = getWalkingDogNumber("--works-dog-left-start", 36);
+      const dogLeftRange = getWalkingDogNumber("--works-dog-left-range", 24);
+      const dogTopStart = getWalkingDogNumber("--works-dog-top-start", 10.5);
+      const dogTopRange = getWalkingDogNumber("--works-dog-top-range", 4);
+      const dogLeftRatio = (dogLeftStart + progress * dogLeftRange) / 100;
+      const dogTopRatio = (dogTopStart + progress * dogTopRange) / 100;
 
       walkingDog.style.setProperty("--works-dog-left-ratio", dogLeftRatio);
       walkingDog.style.setProperty("--works-dog-top-ratio", dogTopRatio);
